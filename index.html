@@ -1,176 +1,1805 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Bright WebApps Hub</title>
-  <!-- Bootstrap CSS -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-    }
-    .navbar-brand {
-      font-weight: bold;
-      font-size: 1.5rem;
-    }
-    .hero {
-      background: linear-gradient(120deg, #ff9a9e, #fad0c4, #fbc2eb);
-      padding: 80px 20px;
-      text-align: center;
-      color: #fff;
-      border-radius: 10px;
-      margin: 20px 0;
-    }
-    .hero h1 {
-      font-size: 3rem;
-    }
-    .hero p {
-      font-size: 1.2rem;
-    }
-    .menu-card {
-      transition: transform 0.3s, box-shadow 0.3s;
-      background: linear-gradient(120deg, #a1c4fd, #c2e9fb);
-      border: none;
-      color: #333;
-    }
-    .menu-card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
-    }
-    footer {
-      background: linear-gradient(90deg, #ff9a9e, #fad0c4);
-      color: #fff;
-      padding: 10px 20px;
-      text-align: center;
-    }
-    .nav-link {
-      font-weight: bold;
-      color: #555 !important;
-    }
-    .nav-link.active {
-      color: #007bff !important;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dice Cricket Legends</title>
+    <style>
+        /* --- General Styles & Theme --- */
+        :root {
+            --bg-primary: #121212;
+            --bg-secondary: #1E1E1E;
+            --bg-tertiary: #2A2A2A;
+            --surface-color: #333;
+            --primary-accent: #03DAC6;
+            --secondary-accent: #BB86FC;
+            --text-primary: #E0E0E0;
+            --text-secondary: #B0B0B0;
+            --text-on-accent: #000000;
+            --border-color: #444;
+            --success-color: #4CAF50;
+            --error-color: #F44336;
+            --powerplay-color: #FFC107;
+            --font-family-main: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+            --font-family-mono: "Consolas", "Courier New", monospace;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: var(--font-family-main);
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 1rem;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 950px;
+            background-color: var(--bg-secondary);
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            overflow: hidden;
+        }
+        
+        button, select, input {
+            font-family: inherit;
+            font-size: 1rem;
+            padding: 0.75em 1.5em;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            background-color: var(--bg-tertiary);
+            color: var(--text-primary);
+            cursor: pointer;
+            transition: all 0.2s ease-in-out;
+        }
+
+        button:hover:not(:disabled) {
+            background-color: var(--primary-accent);
+            color: var(--text-on-accent);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(3, 218, 198, 0.2);
+        }
+        
+        button:disabled {
+            background-color: #252525;
+            color: #555;
+            cursor: not-allowed;
+        }
+
+        select {
+            -webkit-appearance: none;
+            appearance: none;
+            background-image: url('data:image/svg+xml;utf8,<svg fill="white" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/><path d="M0 0h24v24H0z" fill="none"/></svg>');
+            background-repeat: no-repeat;
+            background-position: right 0.7em top 50%, 0 0;
+            background-size: 1.5em auto;
+        }
+
+        input[type="text"] {
+            width: 100%;
+        }
+        input[type="radio"] {
+            margin-right: 0.5em;
+        }
+
+        h1, h2, h3 {
+            color: var(--primary-accent);
+            text-shadow: 0 0 5px rgba(3, 218, 198, 0.3);
+            margin-bottom: 1rem;
+        }
+
+        /* --- Setup Screen --- */
+        #setup-screen {
+            padding: 2rem;
+        }
+        .setup-section {
+            margin-bottom: 1.5rem;
+            border: 1px solid var(--border-color);
+            padding: 1.5rem;
+            border-radius: 8px;
+        }
+        .setup-section label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--text-secondary);
+        }
+        .setup-options > div {
+            margin-bottom: 1rem;
+        }
+        .setup-options .team-selection-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+        }
+        #start-game-btn {
+            width: 100%;
+            background-color: var(--success-color);
+            color: white;
+            font-weight: bold;
+            font-size: 1.2rem;
+            margin-top: 1rem;
+        }
+        #start-game-btn:hover {
+            background-color: #5cb85c;
+        }
+
+        /* --- Game Screen --- */
+        #game-screen {
+            display: none; /* Initially hidden */
+            flex-direction: column;
+            padding: 1rem;
+            gap: 0.5rem;
+        }
+        #match-title {
+            font-size: 1.8rem;
+            font-weight: bold;
+            text-align: center;
+            padding: 0.5rem;
+            color: white;
+            background: linear-gradient(90deg, var(--bg-primary) 0%, var(--bg-tertiary) 50%, var(--bg-primary) 100%);
+        }
+
+        /* Scoreboard */
+        .scoreboard {
+            display: flex;
+            align-items: stretch;
+            background-color: var(--bg-tertiary);
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+            font-weight: bold;
+        }
+        .scoreboard-team {
+            padding: 0.75rem 1rem;
+            font-size: 1.5rem;
+        }
+        .scoreboard-score {
+            padding: 0.75rem 1rem;
+            font-size: 1.5rem;
+            color: var(--text-on-accent);
+        }
+        .scoreboard-details {
+            display: flex;
+            gap: 1rem;
+            padding: 0.5rem 1rem;
+            background-color: var(--text-primary);
+            color: var(--bg-primary);
+            flex-grow: 1;
+            justify-content: center;
+        }
+        .scoreboard-details > div {
+            text-align: center;
+        }
+        .scoreboard-details-label {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+        }
+        .scoreboard-details-value {
+            font-size: 1.2rem;
+        }
+        .scoreboard-bowler {
+            padding: 0.75rem 1rem;
+            text-align: right;
+            font-family: var(--font-family-mono);
+            font-size: 0.9rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        .scoreboard-bowler .bowler-name {
+            font-size: 1.1em;
+            font-weight: bold;
+        }
+
+        /* Player Bar */
+        .player-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: var(--bg-tertiary);
+            padding: 0.75rem 1rem;
+            border-radius: 8px;
+            font-family: var(--font-family-mono);
+            font-size: 0.95rem;
+        }
+        #batsmen-display .striker::after {
+            content: '*';
+            color: var(--primary-accent);
+            margin-left: 2px;
+        }
+        #target-display {
+            font-weight: bold;
+            color: var(--powerplay-color);
+        }
+
+        /* Status & Commentary */
+        .status-commentary-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 0.5rem;
+            padding: 1rem;
+            background-color: var(--bg-tertiary);
+            border-radius: 8px;
+            min-height: 150px;
+        }
+        #status-display {
+            text-align: center;
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: var(--powerplay-color);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+        #dice-display {
+            text-align: center;
+            font-family: var(--font-family-mono);
+            color: var(--text-secondary);
+        }
+        #commentary-display {
+            text-align: center;
+            font-size: 1.2rem;
+            font-style: italic;
+            min-height: 50px;
+        }
+        
+        /* Mode Info & Controls */
+        #mode-info-display {
+            background-color: var(--bg-tertiary);
+            border-radius: 8px;
+            padding: 1rem;
+            font-family: var(--font-family-mono);
+            font-size: 0.9rem;
+            white-space: pre-wrap;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+
+        #controls {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            padding: 1rem 0;
+        }
+        #next-action-btn {
+            background-color: var(--secondary-accent);
+            color: var(--text-on-accent);
+            font-size: 1.1rem;
+            min-width: 200px;
+        }
+        #next-action-btn:hover:not(:disabled) {
+            background-color: #d1a6ff;
+        }
+
+        /* --- Modal Styles --- */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.7);
+            justify-content: center;
+            align-items: center;
+        }
+        .modal-content {
+            background-color: var(--bg-secondary);
+            margin: auto;
+            padding: 2rem;
+            border: 1px solid var(--border-color);
+            width: 90%;
+            max-width: 800px;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+            animation: slide-in 0.3s ease-out;
+        }
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 1rem;
+        }
+        .modal-title {
+            margin: 0;
+            font-size: 1.5rem;
+        }
+        .modal-close {
+            color: #aaa;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .modal-body {
+            max-height: 70vh;
+            overflow-y: auto;
+            font-family: var(--font-family-mono);
+            white-space: pre;
+            line-height: 1.6;
+        }
+        @keyframes slide-in {
+            from {
+                transform: translateY(-50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+        .scorecard-inning-frame {
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+        }
+        .scorecard-inning-frame h3 {
+            font-size: 1.2rem;
+            color: var(--primary-accent);
+        }
+        .scorecard-inning-frame h4 {
+            margin-top: 1rem;
+            text-decoration: underline;
+        }
+        .scorecard-total {
+            text-align: right;
+            font-weight: bold;
+            margin-top: 1rem;
+            font-size: 1.1rem;
+        }
+
+        /* --- Utility Classes --- */
+        .hidden {
+            display: none !important;
+        }
+    </style>
 </head>
 <body>
-  <!-- Navbar -->
-  <nav class="navbar navbar-expand-lg navbar-light bg-light sticky-top">
+
     <div class="container">
-      <a class="navbar-brand" href="#">WebApps Hub</a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav ms-auto">
-          <li class="nav-item">
-            <a class="nav-link active" href="#home">Home</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#menu">Menu</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#about">About</a>
-          </li>
-        </ul>
-      </div>
+        <!-- ===== SETUP SCREEN ===== -->
+        <div id="setup-screen">
+            <h1 style="text-align: center;">Dice Cricket Legends</h1>
+            
+            <div class="setup-section">
+                <h2>1. Select Game Mode</h2>
+                <div id="game-mode-selection">
+                    <label><input type="radio" name="game_mode" value="single_match" checked> Single Match</label>
+                    <label><input type="radio" name="game_mode" value="series_play"> Bilateral Series</label>
+                    <label><input type="radio" name="game_mode" value="t20_tournament"> T20 Tournament (6 Teams)</label>
+                    <label><input type="radio" name="game_mode" value="odi_world_cup"> ODI World Cup (8 Teams)</label>
+                </div>
+            </div>
+
+            <div class="setup-section setup-options">
+                <h2 style="margin-bottom: 0;">2. Configure Match</h2>
+                <!-- Single Match Options -->
+                <div id="single-match-options">
+                    <h3>Single Match Setup</h3>
+                    <div>
+                        <label for="sm-format">Format:</label>
+                        <select id="sm-format"></select>
+                    </div>
+                    <div>
+                        <label for="sm-team1">Team 1:</label>
+                        <select id="sm-team1"></select>
+                    </div>
+                    <div>
+                        <label for="sm-team2">Team 2:</label>
+                        <select id="sm-team2"></select>
+                    </div>
+                </div>
+
+                <!-- Series Options -->
+                <div id="series-options" class="hidden">
+                    <h3>Bilateral Series Setup</h3>
+                    <div>
+                        <label for="series-name">Series Name:</label>
+                        <input type="text" id="series-name" value="The Ashes">
+                    </div>
+                    <div>
+                        <label for="series-matches">Number of Matches:</label>
+                        <select id="series-matches">
+                            <option value="3">3 Matches</option>
+                            <option value="5">5 Matches</option>
+                            <option value="7">7 Matches</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="series-format">Format:</label>
+                        <select id="series-format"></select>
+                    </div>
+                    <div>
+                        <label for="series-team1">Team 1:</label>
+                        <select id="series-team1"></select>
+                    </div>
+                     <div>
+                        <label for="series-team2">Team 2:</label>
+                        <select id="series-team2"></select>
+                    </div>
+                    <div>
+                        <label for="series-player-team">Your Team:</label>
+                        <select id="series-player-team"></select>
+                    </div>
+                </div>
+
+                <!-- T20 Tournament Options -->
+                <div id="t20-tournament-options" class="hidden">
+                    <h3>T20 Tournament Setup</h3>
+                     <label>Select 6 Teams:</label>
+                    <div class="team-selection-grid" id="t20-teams-container"></div>
+                    <div>
+                        <label for="t20-player-team">Your Team:</label>
+                        <select id="t20-player-team"></select>
+                    </div>
+                </div>
+
+                <!-- ODI World Cup Options -->
+                <div id="odi-wc-options" class="hidden">
+                    <h3>ODI World Cup Setup</h3>
+                    <label>Select 8 Teams:</label>
+                    <div class="team-selection-grid" id="odi-teams-container"></div>
+                    <div>
+                        <label for="odi-player-team">Your Team:</label>
+                        <select id="odi-player-team"></select>
+                    </div>
+                </div>
+            </div>
+
+            <button id="start-game-btn">Start Game</button>
+        </div>
+
+        <!-- ===== GAME SCREEN ===== -->
+        <div id="game-screen">
+            <h2 id="match-title">Match Title</h2>
+            
+            <div class="scoreboard">
+                <div id="bat-team-name-label" class="scoreboard-team">BAT</div>
+                <div id="bat-team-score-label" class="scoreboard-score">0-0</div>
+                <div class="scoreboard-details">
+                    <div>
+                        <div class="scoreboard-details-label">Overs</div>
+                        <div id="overs-display" class="scoreboard-details-value">0.0</div>
+                    </div>
+                    <div>
+                        <div class="scoreboard-details-label">Run Rate</div>
+                        <div id="rr-display" class="scoreboard-details-value">0.00</div>
+                    </div>
+                </div>
+                <div id="bowl-team-stats-label" class="scoreboard-bowler">
+                    <span id="bowler-name-display" class="bowler-name">Bowler</span>
+                    <span id="bowler-figures-display">0-0 (0.0)</span>
+                </div>
+                <div id="bowl-team-name-label" class="scoreboard-team">BOWL</div>
+            </div>
+
+            <div class="player-bar">
+                <div id="batsmen-display">
+                    <span id="striker-display" class="striker">Striker 0 (0)</span>
+                    <span id="non-striker-display">Non-Striker 0 (0)</span>
+                </div>
+                <div id="target-display"></div>
+            </div>
+
+            <div class="status-commentary-grid">
+                <div id="status-display"></div>
+                <div id="dice-display">
+                    <div id="bat-dice-display"></div>
+                    <div id="bowl-dice-display"></div>
+                </div>
+                <div id="commentary-display">Welcome to Dice Cricket!</div>
+            </div>
+            
+            <div id="mode-info-display" class="hidden"></div>
+            
+            <div id="controls">
+                <button id="next-action-btn">Start Match</button>
+                <button id="scorecard-btn" disabled>Scorecard</button>
+                <button id="mode-info-btn" class="hidden">Info</button>
+            </div>
+        </div>
     </div>
-  </nav>
 
-  <!-- Hero Section -->
-  <div id="home" class="hero">
-    <h1>Welcome to WebApps Hub</h1>
-    <p>Your one-stop destination for all amazing web applications. Explore, Create, and Innovate!</p>
-  </div>
-
-  <!-- WebApps Menu -->
-  <div id="menu" class="container my-5">
-    <h2 class="text-center mb-4">Our WebApps</h2>
-    <div class="row g-4">
-      <!-- App Card 1 -->
-      <div class="col-md-4">
-        <div class="card menu-card text-center">
-          <div class="card-body">
-            <h5 class="card-title">To-Do App</h5>
-            <p class="card-text">Organize your tasks easily.</p>
-            <a href="https://todo.example.com" class="btn btn-primary" target="_blank">Open App</a>
-          </div>
+    <!-- ===== MODAL ===== -->
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modal-title" class="modal-title">Modal Title</h2>
+                <span id="modal-close-btn" class="modal-close">×</span>
+            </div>
+            <div id="modal-body" class="modal-body">
+                <p>Modal content goes here.</p>
+            </div>
         </div>
-      </div>
-      <!-- App Card 2 -->
-      <div class="col-md-4">
-        <div class="card menu-card text-center">
-          <div class="card-body">
-            <h5 class="card-title">Weather App</h5>
-            <p class="card-text">Real-time weather updates.</p>
-            <a href="https://weather.example.com" class="btn btn-success" target="_blank">Open App</a>
-          </div>
-        </div>
-      </div>
-      <!-- App Card 3 -->
-      <div class="col-md-4">
-        <div class="card menu-card text-center">
-          <div class="card-body">
-            <h5 class="card-title">Budget Tracker</h5>
-            <p class="card-text">Track your expenses.</p>
-            <a href="https://budget.example.com" class="btn btn-warning" target="_blank">Open App</a>
-          </div>
-        </div>
-      </div>
-      <!-- App Card 4 -->
-      <div class="col-md-4">
-        <div class="card menu-card text-center">
-          <div class="card-body">
-            <h5 class="card-title">Notes</h5>
-            <p class="card-text">Save your notes anytime.</p>
-            <a href="https://notes.example.com" class="btn btn-info" target="_blank">Open App</a>
-          </div>
-        </div>
-      </div>
-      <!-- App Card 5 -->
-      <div class="col-md-4">
-        <div class="card menu-card text-center">
-          <div class="card-body">
-            <h5 class="card-title">Timer</h5>
-            <p class="card-text">Keep track of time.</p>
-            <a href="https://timer.example.com" class="btn btn-danger" target="_blank">Open App</a>
-          </div>
-        </div>
-      </div>
-      <!-- App Card 6 -->
-      <div class="col-md-4">
-        <div class="card menu-card text-center">
-          <div class="card-body">
-            <h5 class="card-title">Calculator</h5>
-            <p class="card-text">Perform quick calculations.</p>
-            <a href="https://calculator.example.com" class="btn btn-secondary" target="_blank">Open App</a>
-          </div>
-        </div>
-      </div>
     </div>
-  </div>
 
-  <!-- About Section -->
-  <div id="about" class="container my-5">
-    <h2 class="text-center mb-4">About Us</h2>
-    <p>
-      Welcome to **WebApps Hub**, your go-to destination for interactive and productive web applications. 
-      Our mission is to simplify your daily tasks and enhance productivity by offering sleek and user-friendly web tools. 
-      Whether it's managing your tasks, tracking your finances, or just having fun with creative apps, 
-      we have something for everyone!
-    </p>
-    <p>
-      All our applications are built with love and precision, ensuring a seamless user experience. 
-      Explore our growing collection of web apps and make your life easier.
-    </p>
-  </div>
+<script>
+'use strict';
 
-  <!-- Footer -->
-  <footer>
-    <p>© 2024 WebApps Hub. Designed with 💖 for creativity and innovation.</p>
-  </footer>
+document.addEventListener('DOMContentLoaded', () => {
 
-  <!-- Bootstrap JS -->
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+// --- Constants & Data ---
+const GAME_MODES = {
+    SINGLE: "single_match",
+    SERIES: "series_play",
+    T20_TOURNAMENT: "t20_tournament",
+    ODI_WORLD_CUP: "odi_world_cup"
+};
+const DEFAULT_FORMAT_KEY = 'T20';
+
+const GAME_FORMATS = {
+    'TEST': {
+        total_balls: 2700, powerplay_overs: [],
+        bowler_max_balls: 540, name: "Test Match" // Increased bowler limit for realism
+    },
+    'T20': {
+        total_balls: 120, powerplay_overs: [[0, 6]], // Simplified Powerplay
+        bowler_max_balls: 24, name: "T20"
+    },
+    'ODI': {
+        total_balls: 300, powerplay_overs: [[0, 10], [40, 50]],
+        bowler_max_balls: 60, name: "ODI (50 Overs)"
+    }
+};
+
+const TEAMS_DATA = {
+    "India": ["Tendulkar", "Sehwag", "Kohli", "Dhoni", "Yuvraj", "Rohit", "Dravid", "Zaheer", "Ashwin", "Bumrah", "Nehra"],
+    "Australia": ["Gilchrist", "Hayden", "Ponting", "Hussey", "Clarke", "Symonds", "Watson", "Lee", "Warne", "Johnson", "McGrath"],
+    "England": ["Strauss", "Trescothick", "Pietersen", "Collingwood", "Morgan", "Flintoff", "Swann", "Broad", "Stokes", "Plunkett", "Anderson"],
+    "Pakistan": ["Anwar", "Hafeez", "Yousuf", "Inzamam", "Younis", "Malik", "Afridi", "Akram", "Akhtar", "Waqar", "Ajmal"],
+    "South Africa": ["Smith", "Gibbs", "Kallis", "de Villiers", "Amla", "Boucher", "Pollock", "Ntini", "Steyn", "Morkel", "Donald"],
+    "New Zealand": ["Fleming", "McCullum", "Williamson", "Styris", "Cairns", "Oram", "Vettori", "Harris", "Southee", "Bond", "Boult"],
+    "Sri Lanka": ["Jayasuriya", "Dilshan", "Sangakkara", "Jayawardene", "de Silva", "Mathews", "Arnold", "Vaas", "Malinga", "Herath", "Muralitharan"],
+    "West Indies": ["Gayle", "Chanderpaul", "Lara", "Sarwan", "Samuels", "Bravo", "Pollard", "Sammy", "Narine", "Edwards", "Ambrose"]
+};
+
+const PLAYER_RATINGS = {
+    "Tendulkar": {"batting": 13, "bowling": 4},"Sehwag": {"batting": 14, "bowling": 3},"Kohli": {"batting": 14, "bowling": 1},"Dhoni": {"batting": 14, "bowling": 1},"Yuvraj": {"batting": 12, "bowling": 9},"Rohit": {"batting": 13, "bowling": 6},"Dravid": {"batting": 12, "bowling": 2},"Zaheer": {"batting": 4, "bowling": 11},"Ashwin": {"batting": 6, "bowling": 10},"Bumrah": {"batting": 3, "bowling": 12},"Nehra": {"batting": 3, "bowling": 12},"Gilchrist": {"batting": 14, "bowling": 1},"Hayden": {"batting": 14, "bowling": 1},"Ponting": {"batting": 14, "bowling": 3},"Hussey": {"batting": 13, "bowling": 2},"Clarke": {"batting": 12, "bowling": 5},"Symonds": {"batting": 11, "bowling": 7},"Watson": {"batting": 10, "bowling": 9},"Lee": {"batting": 3, "bowling": 11},"Warne": {"batting": 5, "bowling": 12},"Johnson": {"batting": 5, "bowling": 10},"McGrath": {"batting": 2, "bowling": 12},"Strauss": {"batting": 11, "bowling": 1},"Trescothick": {"batting": 13, "bowling": 1},"Pietersen": {"batting": 14, "bowling": 3},"Collingwood": {"batting": 10, "bowling": 6},"Morgan": {"batting": 13, "bowling": 1},"Flintoff": {"batting": 11, "bowling": 9},"Swann": {"batting": 6, "bowling": 10},"Broad": {"batting": 5, "bowling": 10},"Stokes": {"batting": 11, "bowling": 9},"Plunkett": {"batting": 5, "bowling": 10},"Anderson": {"batting": 2, "bowling": 12},"Anwar": {"batting": 13, "bowling": 1},"Hafeez": {"batting": 10, "bowling": 7},"Yousuf": {"batting": 12, "bowling": 1},"Inzamam": {"batting": 13, "bowling": 1},"Younis": {"batting": 12, "bowling": 2},"Malik": {"batting": 10, "bowling": 6},"Afridi": {"batting": 12, "bowling": 9},"Akram": {"batting": 6, "bowling": 12},"Akhtar": {"batting": 4, "bowling": 11},"Waqar": {"batting": 3, "bowling": 12},"Ajmal": {"batting": 4, "bowling": 11},"Smith": {"batting": 12, "bowling": 2},"Gibbs": {"batting": 13, "bowling": 1},"Kallis": {"batting": 13, "bowling": 9},"de Villiers": {"batting": 14, "bowling": 2},"Amla": {"batting": 13, "bowling": 1},"Boucher": {"batting": 9, "bowling": 1},"Pollock": {"batting": 8, "bowling": 11},"Ntini": {"batting": 3, "bowling": 10},"Steyn": {"batting": 4, "bowling": 12},"Morkel": {"batting": 3, "bowling": 10},"Donald": {"batting": 3, "bowling": 11},"Fleming": {"batting": 11, "bowling": 1},"McCullum": {"batting": 14, "bowling": 1},"Williamson": {"batting": 14, "bowling": 1},"Styris": {"batting": 10, "bowling": 7},"Cairns": {"batting": 12, "bowling": 9},"Oram": {"batting": 9, "bowling": 8},"Vettori": {"batting": 7, "bowling": 10},"Harris": {"batting": 9, "bowling": 10},"Southee": {"batting": 5, "bowling": 10},"Bond": {"batting": 3, "bowling": 12},"Boult": {"batting": 4, "bowling": 11},"Jayasuriya": {"batting": 14, "bowling": 8},"Dilshan": {"batting": 13, "bowling": 5},"Sangakkara": {"batting": 14, "bowling": 1},"Jayawardene": {"batting": 13, "bowling": 2},"de Silva": {"batting": 13, "bowling": 5},"Mathews": {"batting": 10, "bowling": 7},"Arnold": {"batting": 9, "bowling": 4},"Vaas": {"batting": 6, "bowling": 10},"Malinga": {"batting": 4, "bowling": 11},"Herath": {"batting": 3, "bowling": 10},"Muralitharan": {"batting": 2, "bowling": 12},"Gayle": {"batting": 14, "bowling": 5},"Chanderpaul": {"batting": 11, "bowling": 1},"Lara": {"batting": 14, "bowling": 2},"Sarwan": {"batting": 10, "bowling": 2},"Samuels": {"batting": 11, "bowling": 5},"Bravo": {"batting": 9, "bowling": 9},"Pollard": {"batting": 12, "bowling": 6},"Sammy": {"batting": 9, "bowling": 7},"Narine": {"batting": 7, "bowling": 11},"Edwards": {"batting": 2, "bowling": 9},"Ambrose": {"batting": 2, "bowling": 12}
+};
+
+const TEAM_ABBREVIATIONS = {
+    "India": "IND", "Australia": "AUS", "England": "ENG", "Pakistan": "PAK",
+    "South Africa": "RSA", "New Zealand": "NZ", "Sri Lanka": "SL", "West Indies": "WI"
+};
+const TEAM_COLORS = {
+    "India": {bg: "#0033A0", fg: "white", bg_alt: "#FF9933"},"Australia": {bg: "#003818", fg: "#FFCD00", bg_alt: "#FFCD00"},"England": {bg: "#CE1124", fg: "white", bg_alt: "#FFFFFF"},"Pakistan": {bg: "#004225", fg: "white", bg_alt: "#FFFFFF"},"South Africa": {bg: "#007A4D", fg: "white", bg_alt: "#FFB81C"},"New Zealand": {bg: "#000000", fg: "#CCCCCC", bg_alt: "#707070"},"Sri Lanka": {bg: "#00539F", fg: "#FFC72C", bg_alt: "#FFC72C"},"West Indies": {bg: "#7B0041", fg: "#FFD100", bg_alt: "#FFD100"},"Default": {bg: "#2A2A2A", fg: "white", bg_alt: "#CCCCCC"}
+};
+
+// --- Helper Functions ---
+function randint(min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+function shuffleArray(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+    }
+}
+
+// --- Data Structure Classes ---
+class Player {
+    constructor(name, batting_rating = 2, bowling_rating = 2) {
+        this.name = name;
+        this.base_batting_rating = batting_rating;
+        this.bowling_rating = bowling_rating;
+        this.innings_stats = {};
+        this.current_match_batting_rating = batting_rating;
+        this.fatigue_level = 0;
+        this.reset_match_stats();
+    }
+    reset_match_stats() {
+        this.innings_stats = {};
+        this.current_runs = 0;
+        this.current_balls_faced = 0;
+        this.current_fours = 0;
+        this.current_sixes = 0;
+        this.current_match_batting_rating = this.base_batting_rating;
+        this.fatigue_level = 0;
+    }
+    start_innings(innings_num) {
+        this.current_runs = 0;
+        this.current_balls_faced = 0;
+        this.current_fours = 0;
+        this.current_sixes = 0;
+        this.innings_stats[innings_num] = [0, 0, 0, 0];
+        this.fatigue_level = 0;
+    }
+    end_innings(innings_num) {
+        this.innings_stats[innings_num] = [this.current_runs, this.current_balls_faced, this.current_fours, this.current_sixes];
+    }
+    get strike_rate() {
+        return this.current_balls_faced ? (this.current_runs / this.current_balls_faced) * 100 : 0.0;
+    }
+}
+
+class BowlerStats {
+    constructor(player_obj) {
+        this.player_obj = player_obj;
+        this.name = player_obj.name;
+        this.innings_stats = {};
+        this.reset_match_stats();
+    }
+    reset_match_stats() {
+        this.innings_stats = {};
+        this.current_balls_bowled = 0;
+        this.current_runs_conceded = 0;
+        this.current_wickets = 0;
+    }
+    start_innings(innings_num) {
+        this.current_balls_bowled = 0;
+        this.current_runs_conceded = 0;
+        this.current_wickets = 0;
+        this.innings_stats[innings_num] = [0, 0, 0];
+    }
+    end_innings(innings_num) {
+        this.innings_stats[innings_num] = [this.current_balls_bowled, this.current_runs_conceded, this.current_wickets];
+    }
+    get overs() {
+        return `${Math.floor(this.current_balls_bowled / 6)}.${this.current_balls_bowled % 6}`;
+    }
+    get economy_rate() {
+        return this.current_balls_bowled ? (this.current_runs_conceded / (this.current_balls_bowled / 6)) : 0.0;
+    }
+}
+
+class Team {
+    constructor(name, players_names_list) {
+        this.name = name;
+        this.players_names_list = players_names_list;
+        this.players = [];
+        for (const p_name of this.players_names_list) {
+            const base_ratings = PLAYER_RATINGS[p_name] || { batting: 2, bowling: 2 };
+            const final_bat_rating = Math.max(2, base_ratings.batting);
+            const final_bowl_rating = Math.max(2, base_ratings.bowling);
+            this.players.push(new Player(p_name, final_bat_rating, final_bowl_rating));
+        }
+        const sorted_by_bowling = [...this.players].sort((a, b) => b.bowling_rating - a.bowling_rating);
+        const top_5_bowlers_objects = sorted_by_bowling.slice(0, 5);
+        this.bowler_registry_names = top_5_bowlers_objects.map(p => p.name);
+        this.bowlers = Object.fromEntries(top_5_bowlers_objects.map(p => [p.name, new BowlerStats(p)]));
+        this.scores_by_innings = {};
+        this.reset_match_stats();
+        this.reset_tournament_stats();
+    }
+    reset_match_stats() {
+        this.total_score = 0;
+        this.wickets_lost = 0;
+        this.players.forEach(p => p.reset_match_stats());
+        Object.values(this.bowlers).forEach(b => b.reset_match_stats());
+        this.scores_by_innings = {};
+    }
+    reset_tournament_stats() {
+        this.played = 0; this.wins = 0; this.losses = 0; this.ties = 0; this.points = 0;
+    }
+}
+
+class Series {
+    constructor(team1_obj, team2_obj, player_team_name, series_name, total_matches, format_key) {
+        this.team1 = team1_obj;
+        this.team2 = team2_obj;
+        this.player_team_name = player_team_name;
+        this.name = series_name;
+        this.total_matches = total_matches;
+        this.format_rules = GAME_FORMATS[format_key];
+        this.team1_wins = 0;
+        this.team2_wins = 0;
+        this.ties_or_draws = 0;
+        this.current_match_num = 0;
+        this.results = [];
+        this.winner = null;
+    }
+    record_match_result(winning_team_obj, is_tie = false) {
+        this.current_match_num += 1;
+        const result_log = { match_num: this.current_match_num, winner: is_tie ? 'TIE/DRAW' : winning_team_obj.name };
+        this.results.push(result_log);
+
+        if (is_tie) {
+            this.ties_or_draws += 1;
+        } else if (winning_team_obj === this.team1) {
+            this.team1_wins += 1;
+        } else if (winning_team_obj === this.team2) {
+            this.team2_wins += 1;
+        }
+        this._check_for_series_winner();
+    }
+    _check_for_series_winner() {
+        const wins_needed = Math.ceil(this.total_matches / 2);
+        if (this.team1_wins >= wins_needed) {
+            this.winner = this.team1;
+        } else if (this.team2_wins >= wins_needed) {
+            this.winner = this.team2;
+        } else if (this.current_match_num >= this.total_matches) {
+            if (this.team1_wins > this.team2_wins) this.winner = this.team1;
+            else if (this.team2_wins > this.team1_wins) this.winner = this.team2;
+            else this.winner = "DRAWN";
+        }
+    }
+    get_series_status_string() {
+        return `${this.team1.name} ${this.team1_wins} - ${this.team2_wins} ${this.team2.name}`;
+    }
+    is_over() {
+        return this.winner !== null;
+    }
+    get_next_match_teams() {
+        if (this.is_over()) return null;
+        return [this.team1, this.team2];
+    }
+}
+
+class Tournament {
+    constructor(selected_team_names, all_teams_data, tournament_type, player_team_name_for_ref = null) {
+        this.tournament_type = tournament_type;
+        this.player_team_name_for_reference = player_team_name_for_ref;
+        const num_teams_required = this.tournament_type === GAME_MODES.T20_TOURNAMENT ? 6 : 8;
+        if (selected_team_names.length !== num_teams_required) throw new Error(`${tournament_type} requires ${num_teams_required} teams.`);
+        
+        this.all_teams_in_tournament = selected_team_names.map(name => new Team(name, all_teams_data[name]));
+        this.all_teams_in_tournament.forEach(t_obj => t_obj.reset_tournament_stats());
+        shuffleArray(this.all_teams_in_tournament);
+
+        if (this.tournament_type === GAME_MODES.T20_TOURNAMENT) {
+            this.groups = {'A': this.all_teams_in_tournament.slice(0, 3), 'B': this.all_teams_in_tournament.slice(3, 6)};
+            this.format_rules = GAME_FORMATS['T20']; this.group_matches_per_team = 2;
+        } else if (this.tournament_type === GAME_MODES.ODI_WORLD_CUP) {
+            this.groups = {'A': this.all_teams_in_tournament.slice(0, 4), 'B': this.all_teams_in_tournament.slice(4, 8)};
+            this.format_rules = GAME_FORMATS['ODI']; this.group_matches_per_team = 3;
+        }
+        this.schedule = []; this.current_match_index = -1; this.results = [];
+        this.knockout_qualifiers = {}; this.semi_final_winners = {}; this.final_winner = null;
+        this._generate_group_schedule();
+    }
+    _generate_group_schedule() {
+        this.schedule = [];
+        for (const [group_name, teams_in_group] of Object.entries(this.groups)) {
+            for (let i = 0; i < teams_in_group.length; i++) {
+                for (let j = i + 1; j < teams_in_group.length; j++) {
+                    this.schedule.push([teams_in_group[i], teams_in_group[j], `Group ${group_name} Match`, group_name]);
+                }
+            }
+        }
+        shuffleArray(this.schedule);
+    }
+    get_next_match() {
+        this.current_match_index += 1;
+        return this.schedule[this.current_match_index] || null;
+    }
+    record_match_result(team1_obj, team2_obj, winning_team_obj, match_info_tuple, is_tie = false) {
+        team1_obj.played++; team2_obj.played++;
+        let winner_name_for_log;
+        if (is_tie) {
+            team1_obj.ties++; team2_obj.ties++;
+            team1_obj.points++; team2_obj.points++;
+            winner_name_for_log = "TIE";
+        } else if (winning_team_obj) {
+            const loser = (winning_team_obj === team1_obj) ? team2_obj : team1_obj;
+            winning_team_obj.wins++; winning_team_obj.points += 2;
+            loser.losses++;
+            winner_name_for_log = winning_team_obj.name;
+        }
+        this.results.push({
+            match_type: match_info_tuple[2], group: match_info_tuple[3] || null,
+            team1_name: team1_obj.name, team1_score: team1_obj.total_score, team1_wickets: team1_obj.wickets_lost,
+            team2_name: team2_obj.name, team2_score: team2_obj.total_score, team2_wickets: team2_obj.wickets_lost,
+            winner: winner_name_for_log
+        });
+    }
+    _get_sorted_group_table(group_name) {
+        return [...this.groups[group_name]].sort((a, b) => (b.points - a.points) || (b.wins - a.wins));
+    }
+    are_group_matches_over() {
+        return Object.values(this.groups).flat().every(t => t.played >= this.group_matches_per_team);
+    }
+    generate_knockout_schedule() {
+        if (!this.are_group_matches_over()) return false;
+        const [wA, rA] = this._get_sorted_group_table('A').slice(0, 2);
+        const [wB, rB] = this._get_sorted_group_table('B').slice(0, 2);
+        this.knockout_qualifiers = {WA: wA, RA: rA, WB: wB, RB: rB};
+        if (!this.schedule.some(m => m[2].includes("Semi-Final"))) {
+            this.schedule.push([wA, rB, "Semi-Final 1", "SF1"]);
+            this.schedule.push([wB, rA, "Semi-Final 2", "SF2"]);
+        }
+        return true;
+    }
+    generate_final_schedule() {
+        if (!this.semi_final_winners['SF1'] || !this.semi_final_winners['SF2']) return false;
+        const sf1w = this.semi_final_winners['SF1'];
+        const sf2w = this.semi_final_winners['SF2'];
+        if (!this.schedule.some(m => m[2].includes("FINAL"))) {
+            this.schedule.push([sf1w, sf2w, "FINAL", "F"]);
+            this.knockout_qualifiers = {...this.knockout_qualifiers, F_T1: sf1w, F_T2: sf2w};
+        }
+        return true;
+    }
+}
+
+class Innings {
+    constructor(batting_team_obj, bowling_team_obj, format_rules, innings_num, target = null) {
+        this.batting_team = batting_team_obj; this.bowling_team = bowling_team_obj;
+        this.format_rules = format_rules; this.target = target; this.innings_num = innings_num;
+        this.score = 0; this.wickets = 0; this.ball_count = 0;
+
+        this.batting_team.players.forEach(p => p.start_innings(innings_num));
+        Object.values(this.bowling_team.bowlers).forEach(b => b.start_innings(innings_num));
+
+        this.striker = this.batting_team.players[0];
+        this.non_striker = this.batting_team.players[1] || this.batting_team.players[0];
+        this.next_batsman_index = 2;
+        this.bowler_names = [...this.bowling_team.bowler_registry_names];
+        this.current_bowler = this.bowling_team.bowlers[this.bowler_names[0]];
+        this.commentary = "Match begins!";
+        this.bat_roll_sum_temp = 0; this.bowl_roll_sum_temp = 0;
+        this.team_score_inhibitor_applied = false; this.inhibitor_commentary = [];
+    }
+
+    get run_rate() { return this.ball_count > 0 ? (this.score / (this.ball_count / 6)) : 0.0; }
+    is_powerplay() {
+        const current_over = Math.floor(this.ball_count / 6);
+        return this.format_rules.powerplay_overs.some(([start, end]) => current_over >= start && current_over < end);
+    }
+
+    _get_outcome(bat_sum, bowl_sum) {
+        const is_wicket = (bat_sum === bowl_sum);
+        const runs = is_wicket ? 0 : bat_sum;
+        return { is_wicket, runs };
+    }
+    
+    _check_fatigue_inhibitor(previous_player_score) {
+        const is_odi = this.format_rules.name === "ODI (50 Overs)";
+        const is_test = this.format_rules.name === "Test Match";
+        if (!is_odi && !is_test) return;
+
+        const base_threshold = is_test ? 115 : 65;
+        const interval = 40;
+        while (true) {
+            const current_threshold = base_threshold + (this.striker.fatigue_level * interval);
+            if (this.striker.current_runs > current_threshold && previous_player_score <= current_threshold) {
+                this.striker.current_match_batting_rating = Math.max(2, this.striker.current_match_batting_rating - 1);
+                this.striker.fatigue_level += 1;
+                this.inhibitor_commentary.push(`${this.striker.name} is tiring, batting rating reduced!`);
+            } else {
+                break;
+            }
+        }
+    }
+
+    _check_team_score_inhibitor(previous_team_score) {
+        if (this.score > 330 && previous_team_score <= 330 && !this.team_score_inhibitor_applied) {
+            this.team_score_inhibitor_applied = true;
+            this.striker.current_match_batting_rating = Math.max(2, this.striker.current_match_batting_rating - 1);
+            if (this.non_striker !== this.striker) {
+                 this.non_striker.current_match_batting_rating = Math.max(2, this.non_striker.current_match_batting_rating - 1);
+            }
+            this.inhibitor_commentary.push("Pressure mounting! Batsmen ratings reduced.");
+        }
+    }
+
+    _process_ball_outcome(is_w, runs, balls_faced = 1, prefix = "") {
+        this.current_bowler.current_balls_bowled += balls_faced;
+        this.striker.current_balls_faced += balls_faced;
+        this.inhibitor_commentary = [];
+
+        if (is_w) {
+            this.wickets++;
+            this.current_bowler.current_wickets++;
+            this.commentary = `${prefix}WICKET! ${this.striker.name} is out for ${this.striker.current_runs} runs. (Bat: ${this.bat_roll_sum_temp} vs Bowl: ${this.bowl_roll_sum_temp})`;
+
+            if (this.next_batsman_index < this.batting_team.players.length) {
+                this.striker = this.batting_team.players[this.next_batsman_index];
+                this.next_batsman_index++;
+            } else {
+                this.wickets = 10;
+            }
+        } else {
+            const previous_player_score = this.striker.current_runs;
+            const previous_team_score = this.score;
+            this.score += runs;
+            this.striker.current_runs += runs;
+            this.current_bowler.current_runs_conceded += runs;
+
+            this._check_fatigue_inhibitor(previous_player_score);
+            this._check_team_score_inhibitor(previous_team_score);
+
+            if (runs >= 4 && runs < 6) this.striker.current_fours++;
+            if (runs >= 6) this.striker.current_sixes++;
+
+            const base_commentary = `${prefix}${this.striker.name} scores ${runs}.`;
+            if (this.inhibitor_commentary.length > 0) {
+                this.commentary = `${base_commentary} ${this.inhibitor_commentary.join(' ')}`;
+            } else {
+                this.commentary = base_commentary;
+            }
+            if (runs > 0 && runs % 2 !== 0) this.change_strike();
+        }
+        this.striker.innings_stats[this.innings_num] = [this.striker.current_runs, this.striker.current_balls_faced, this.striker.current_fours, this.striker.current_sixes];
+    }
+
+    play_next_delivery() {
+        if (this.is_over()) return {};
+
+        const old_over_count = Math.floor(this.ball_count / 6);
+        const bat_rating = this.striker.current_match_batting_rating;
+        const bowl_rating = this.current_bowler.player_obj.bowling_rating;
+
+        let bat_roll_sum, bowl_roll_sum;
+        if (bat_rating <= 6 && bowl_rating <= 6) {
+            bat_roll_sum = randint(1, 6) + randint(1, 6);
+            bowl_roll_sum = randint(1, 6) + randint(1, 6);
+        } else if (bat_rating <= 6 && bowl_rating >= 7) {
+            bat_roll_sum = randint(1, Math.max(1, bat_rating));
+            bowl_roll_sum = randint(1, 6);
+        } else {
+            bat_roll_sum = randint(1, Math.max(1, bat_rating));
+            bowl_roll_sum = randint(1, Math.max(1, bowl_rating));
+        }
+        
+        this.bat_roll_sum_temp = bat_roll_sum;
+        this.bowl_roll_sum_temp = bowl_roll_sum;
+        const { is_wicket, runs } = this._get_outcome(bat_roll_sum, bowl_roll_sum);
+        
+        const balls_to_consume = bowl_roll_sum;
+        const balls_remaining_in_innings = this.format_rules.total_balls - this.ball_count;
+        const balls_to_add = Math.min(balls_to_consume, balls_remaining_in_innings);
+
+        this.ball_count += balls_to_add;
+        this._process_ball_outcome(is_wicket, runs, balls_to_add);
+        if (balls_to_add > 1) this.commentary += ` (${balls_to_add} balls consumed)`;
+
+        if (Math.floor(this.ball_count / 6) > old_over_count && !this.is_over()) {
+             this.commentary += " End of over.";
+             this.change_strike();
+             this.change_bowler();
+        }
+
+        return { bat_roll: bat_roll_sum, bowl_roll: bowl_roll_sum, bat_rating, bowl_rating };
+    }
+
+    change_strike() {
+        [this.striker, this.non_striker] = [this.non_striker, this.striker];
+    }
+    
+    change_bowler() {
+        const current_idx = this.bowler_names.indexOf(this.current_bowler.name);
+        for (let i = 1; i <= this.bowler_names.length; i++) {
+            const next_bowler_name = this.bowler_names[(current_idx + i) % this.bowler_names.length];
+            if (this.bowling_team.bowlers[next_bowler_name].current_balls_bowled < this.format_rules.bowler_max_balls) {
+                this.current_bowler = this.bowling_team.bowlers[next_bowler_name];
+                return;
+            }
+        }
+        // Fallback if all bowlers are maxed out
+        this.current_bowler = this.bowling_team.bowlers[this.bowler_names[(current_idx + 1) % this.bowler_names.length]];
+        this.commentary += " Note: All bowlers have reached their max overs limit.";
+    }
+    
+    is_over() {
+        return this.wickets >= 10 ||
+               this.ball_count >= this.format_rules.total_balls ||
+               (this.target !== null && this.score > this.target);
+    }
+}
+
+function simulate_cpu_match(team1_obj, team2_obj, format_rules) {
+    team1_obj.reset_match_stats(); team2_obj.reset_match_stats();
+    
+    const is_odi = format_rules.total_balls === 300;
+    const min_score = is_odi ? 150 : 70;
+    const max_score_factor = is_odi ? 1.2 : 1.6;
+    const max_abs_score = is_odi ? 380 : 220;
+
+    const score1 = randint(min_score, Math.min(max_abs_score, Math.floor(format_rules.total_balls * max_score_factor)));
+    const wickets1 = randint(3, 10);
+    team1_obj.total_score = score1;
+    team1_obj.wickets_lost = wickets1;
+
+    const target = score1;
+    let score2 = randint(min_score - 30, Math.min(max_abs_score + 30, Math.floor(format_rules.total_balls * (max_score_factor + 0.15))));
+    let wickets2 = randint(3, 10);
+    if (score2 > target && wickets2 === 10) score2 = target;
+
+    team2_obj.total_score = score2;
+    team2_obj.wickets_lost = wickets2;
+
+    const winner = score2 > score1 ? team2_obj : (score1 > score2 ? team1_obj : team1_obj); // Simple winner logic for sim
+    const is_tie = score1 === score2;
+
+    return { winner, score1, wickets1, score2, wickets2, is_tie };
+}
+
+// --- Main Game Controller Object ---
+const GameController = {
+    // State
+    game_mode: null,
+    player_team_name: null,
+    format_rules: null,
+    team1_obj_current_match: null,
+    team2_obj_current_match: null,
+    team_order: [],
+    innings: null,
+    tournament: null,
+    series: null,
+    current_match_details_tuple: null,
+    innings_count: 0,
+    is_busy: false,
+
+    // DOM Elements
+    dom: {
+        setupScreen: document.getElementById('setup-screen'),
+        gameScreen: document.getElementById('game-screen'),
+        modal: document.getElementById('modal'),
+        modalTitle: document.getElementById('modal-title'),
+        modalBody: document.getElementById('modal-body'),
+        modalCloseBtn: document.getElementById('modal-close-btn'),
+        matchTitle: document.getElementById('match-title'),
+        batTeamNameLabel: document.getElementById('bat-team-name-label'),
+        batTeamScoreLabel: document.getElementById('bat-team-score-label'),
+        oversDisplay: document.getElementById('overs-display'),
+        rrDisplay: document.getElementById('rr-display'),
+        bowlTeamNameLabel: document.getElementById('bowl-team-name-label'),
+        bowlerNameDisplay: document.getElementById('bowler-name-display'),
+        bowlerFiguresDisplay: document.getElementById('bowler-figures-display'),
+        strikerDisplay: document.getElementById('striker-display'),
+        nonStrikerDisplay: document.getElementById('non-striker-display'),
+        targetDisplay: document.getElementById('target-display'),
+        statusDisplay: document.getElementById('status-display'),
+        batDiceDisplay: document.getElementById('bat-dice-display'),
+        bowlDiceDisplay: document.getElementById('bowl-dice-display'),
+        commentaryDisplay: document.getElementById('commentary-display'),
+        modeInfoDisplay: document.getElementById('mode-info-display'),
+        nextActionBtn: document.getElementById('next-action-btn'),
+        scorecardBtn: document.getElementById('scorecard-btn'),
+        modeInfoBtn: document.getElementById('mode-info-btn'),
+    },
+
+    init() {
+        this.setupEventListeners();
+        SetupManager.init();
+    },
+
+    setupEventListeners() {
+        this.dom.nextActionBtn.addEventListener('click', () => this.handle_next_action_button());
+        this.dom.scorecardBtn.addEventListener('click', () => this.show_match_scorecard());
+        this.dom.modeInfoBtn.addEventListener('click', () => {
+            if (this.game_mode === GAME_MODES.SERIES) this.show_series_info_window();
+            if (this.game_mode === GAME_MODES.T20_TOURNAMENT || this.game_mode === GAME_MODES.ODI_WORLD_CUP) this.show_tournament_info_window();
+        });
+        
+        this.dom.modalCloseBtn.addEventListener('click', () => this.hideModal());
+        window.addEventListener('click', (event) => {
+            if (event.target === this.dom.modal) this.hideModal();
+        });
+    },
+
+    initialize_game_controller(config) {
+        this.game_mode = config.mode;
+        this.player_team_name = config.player_team_name;
+        this.innings_count = 0;
+        this.series = null;
+        this.tournament = null;
+        this.is_busy = false;
+
+        this.dom.setupScreen.classList.add('hidden');
+        this.dom.gameScreen.style.display = 'flex';
+        this.dom.modeInfoDisplay.classList.add('hidden');
+        this.dom.modeInfoBtn.classList.add('hidden');
+
+        try {
+            this.format_rules = GAME_FORMATS[config.format_key];
+
+            if (this.game_mode === GAME_MODES.SINGLE) {
+                this.team1_obj_current_match = new Team(config.team_data1, TEAMS_DATA[config.team_data1]);
+                this.team2_obj_current_match = new Team(config.team_data2, TEAMS_DATA[config.team_data2]);
+                this.dom.matchTitle.textContent = `${this.format_rules.name} Dice Cricket`;
+                this.perform_toss_for_match();
+            } 
+            else if (this.game_mode === GAME_MODES.SERIES) {
+                const team1 = new Team(config.team_data1, TEAMS_DATA[config.team_data1]);
+                const team2 = new Team(config.team_data2, TEAMS_DATA[config.team_data2]);
+                this.series = new Series(team1, team2, config.player_team_name, config.series_name, config.num_matches, config.format_key);
+                this.format_rules = this.series.format_rules;
+                this.dom.matchTitle.textContent = `${config.series_name}`;
+                this.dom.modeInfoDisplay.classList.remove('hidden');
+                this.dom.modeInfoBtn.classList.remove('hidden');
+                this.dom.modeInfoBtn.textContent = 'Series Info';
+                this.dom.nextActionBtn.textContent = 'Start Series';
+                this._update_series_info_display();
+            }
+            else if (this.game_mode === GAME_MODES.T20_TOURNAMENT || this.game_mode === GAME_MODES.ODI_WORLD_CUP) {
+                this.tournament = new Tournament(config.team_data1, TEAMS_DATA, this.game_mode, this.player_team_name);
+                this.format_rules = this.tournament.format_rules;
+                const title_prefix = this.game_mode === GAME_MODES.T20_TOURNAMENT ? "T20 Tournament" : "ODI World Cup";
+                this.dom.matchTitle.textContent = title_prefix;
+                this.dom.modeInfoDisplay.classList.remove('hidden');
+                this.dom.modeInfoBtn.classList.remove('hidden');
+                this.dom.modeInfoBtn.textContent = 'Tournament Info';
+                this.dom.nextActionBtn.textContent = 'Start Tournament';
+                this.dom.commentaryDisplay.textContent = 'Tournament Ready. Click to Start!';
+                this._update_tournament_info_display();
+            }
+        } catch (e) {
+            console.error(e);
+            this.showModal("Initialization Error", `Failed to start game: ${e.message}`);
+        }
+    },
+    
+    handle_next_action_button() {
+        if (this.is_busy) return;
+
+        if (this.dom.nextActionBtn.textContent === "New Game?") {
+            this.dom.gameScreen.style.display = 'none';
+            this.dom.setupScreen.classList.remove('hidden');
+            return;
+        }
+
+        if (this.game_mode === GAME_MODES.SINGLE) {
+            this.play_next_throw_for_single_match();
+        } else if (this.game_mode === GAME_MODES.SERIES) {
+            if (this.innings && !this.innings.is_over()) {
+                this.play_next_throw_for_single_match();
+            } else {
+                this._play_next_series_match();
+            }
+        } else if (this.game_mode === GAME_MODES.T20_TOURNAMENT || this.game_mode === GAME_MODES.ODI_WORLD_CUP) {
+            if (this.innings && !this.innings.is_over()) {
+                this.play_next_throw_for_single_match();
+            } else {
+                this._play_next_tournament_match_or_simulate();
+            }
+        }
+    },
+
+    _apply_match_start_inhibitors(team1, team2) {
+        const format_name = this.format_rules.name;
+        let reduction_range = null;
+        if (format_name === "ODI (50 Overs)") reduction_range = [0, 2];
+        else if (format_name === "Test Match") reduction_range = [1, 3];
+        else return;
+
+        [team1, team2].forEach(team => {
+            team.players.forEach(player => {
+                const reduction = randint(...reduction_range);
+                player.current_match_batting_rating = Math.max(2, player.base_batting_rating - reduction);
+            });
+        });
+    },
+
+    perform_toss_for_match() {
+        this.team1_obj_current_match.reset_match_stats();
+        this.team2_obj_current_match.reset_match_stats();
+        this._apply_match_start_inhibitors(this.team1_obj_current_match, this.team2_obj_current_match);
+
+        const toss_winner = Math.random() < 0.5 ? this.team1_obj_current_match : this.team2_obj_current_match;
+        const decision = Math.random() < 0.5 ? "bat" : "bowl";
+        
+        const other_team = toss_winner === this.team1_obj_current_match ? this.team2_obj_current_match : this.team1_obj_current_match;
+        const [batting_team, bowling_team] = (decision === "bat") ? [toss_winner, other_team] : [other_team, toss_winner];
+
+        this.team_order = [batting_team, bowling_team];
+        this.showModal("Toss", `${toss_winner.name} won the toss and chose to ${decision}.`, () => {
+            this._start_next_innings();
+        });
+    },
+    
+    _start_next_innings() {
+        this.innings_count++;
+        const is_test = this.format_rules.name === "Test Match";
+        let target = null;
+        let batting_team, bowling_team;
+
+        if (this.innings_count === 1) {
+            [batting_team, bowling_team] = this.team_order;
+        } else if (this.innings_count === 2) {
+            [bowling_team, batting_team] = this.team_order;
+            target = is_test ? null : this.team_order[0].total_score;
+        } else if (this.innings_count === 3) {
+             [batting_team, bowling_team] = this.team_order;
+        } else if (this.innings_count === 4) {
+            [bowling_team, batting_team] = this.team_order;
+            const lead = (this.team_order[0].scores_by_innings[1]?.[0] || 0) + (this.team_order[0].scores_by_innings[3]?.[0] || 0);
+            const opponent_score = this.team_order[1].scores_by_innings[2]?.[0] || 0;
+            target = lead - opponent_score;
+        } else {
+            this._finalize_match_result();
+            return;
+        }
+
+        this.innings = new Innings(batting_team, bowling_team, this.format_rules, this.innings_count, target);
+        
+        const suffix = {1: 'st', 2: 'nd', 3: 'rd'}[this.innings.innings_num] || 'th';
+        let title_text = `${batting_team.name} - ${this.innings.innings_num}${suffix} Innings`;
+        if (this.game_mode === GAME_MODES.SERIES) {
+            title_text = `Match ${this.series.current_match_num + 1}/${this.series.total_matches} | ${title_text}`;
+        } else if (this.tournament) {
+            const match_type = this.current_match_details_tuple[2];
+            title_text = `${match_type} | ${title_text}`;
+        }
+        this.dom.matchTitle.textContent = title_text;
+        
+        this.dom.targetDisplay.textContent = (target !== null && target >= 0) ? `Target: ${target + 1}` : "";
+        this.dom.scorecardBtn.disabled = false;
+        this.dom.nextActionBtn.textContent = "Next Delivery";
+        this.dom.nextActionBtn.disabled = false;
+        this.update_match_display();
+    },
+
+    play_next_throw_for_single_match() {
+        if (!this.innings || this.innings.is_over()) {
+            this._handle_match_end();
+            return;
+        }
+        const dice_info = this.innings.play_next_delivery();
+        this.update_match_display(dice_info);
+
+        if (this.innings.is_over()) {
+            this.dom.nextActionBtn.textContent = "Innings End...";
+            this.dom.nextActionBtn.disabled = true;
+            this.is_busy = true;
+            setTimeout(() => {
+                this.is_busy = false;
+                this._handle_match_end();
+            }, 1500);
+        }
+    },
+
+    _handle_match_end() {
+        if (!this.innings) return;
+
+        const bat_team = this.innings.batting_team;
+        bat_team.total_score = this.innings.score;
+        bat_team.wickets_lost = this.innings.wickets;
+        bat_team.scores_by_innings[this.innings_count] = [this.innings.score, this.innings.wickets];
+        bat_team.players.forEach(p => p.end_innings(this.innings_count));
+        Object.values(this.innings.bowling_team.bowlers).forEach(b => b.end_innings(this.innings_count));
+
+        const is_test = this.format_rules.name === 'Test Match';
+        const max_innings = is_test ? 4 : 2;
+
+        if (this.innings_count < max_innings) {
+            this.showModal("Innings Over", `${bat_team.name} scored ${this.innings.score}/${this.innings.wickets}.`, () => {
+                this._start_next_innings();
+            });
+        } else {
+            this._finalize_match_result();
+        }
+    },
+    
+    _finalize_match_result() {
+        const is_test = this.format_rules.name === 'Test Match';
+        let winner = null, is_tie = false, msg = "";
+        
+        if (is_test) {
+            const team1_total = (this.team_order[0].scores_by_innings[1]?.[0] || 0) + (this.team_order[0].scores_by_innings[3]?.[0] || 0);
+            const team2_total = (this.team_order[1].scores_by_innings[2]?.[0] || 0) + (this.team_order[1].scores_by_innings[4]?.[0] || 0);
+            if (team1_total > team2_total) {
+                winner = this.team_order[0];
+                msg = `${winner.name} won by ${team1_total - team2_total} runs!`;
+            } else if (team2_total > team1_total) {
+                winner = this.team_order[1];
+                msg = `${winner.name} won by ${10 - this.innings.wickets} wickets!`;
+            } else {
+                is_tie = true;
+                msg = "Match Drawn!";
+            }
+        } else {
+            const score_1st = this.team_order[0].total_score;
+            const score_2nd = this.team_order[1].total_score;
+            if (score_2nd > score_1st) {
+                winner = this.team_order[1];
+                msg = `${winner.name} won by ${10 - this.team_order[1].wickets_lost} wickets!`;
+            } else if (score_1st > score_2nd) {
+                winner = this.team_order[0];
+                msg = `${winner.name} won by ${score_1st - score_2nd} runs!`;
+            } else {
+                is_tie = true;
+                msg = "Match Tied!";
+            }
+        }
+
+        this.showModal("Match Over", msg, () => {
+            this.dom.nextActionBtn.disabled = true;
+
+            if (this.game_mode === GAME_MODES.SERIES) {
+                this.series.record_match_result(winner, is_tie);
+                this._update_series_info_display();
+                if (this.series.is_over()) {
+                    this.dom.nextActionBtn.textContent = "New Game?";
+                    this.dom.nextActionBtn.disabled = false;
+                    const winner_obj = this.series.winner;
+                    let final_msg = "";
+                    if (winner_obj === "DRAWN") {
+                        final_msg = `The series '${this.series.name}' is drawn ${this.series.team1_wins}-${this.series.team2_wins}!`;
+                    } else {
+                        final_msg = `${winner_obj.name} wins the series '${this.series.name}' ${this.series.team1_wins}-${this.series.team2_wins}!`;
+                        if (winner_obj.name === this.player_team_name) {
+                            final_msg = `Congratulations! You have won the series '${this.series.name}' ${this.series.get_series_status_string()}!`;
+                        }
+                    }
+                    this.showModal("Series Over", final_msg);
+                } else {
+                    this.dom.nextActionBtn.textContent = "Next Match";
+                    this.dom.nextActionBtn.disabled = false;
+                }
+            } else if (this.game_mode === GAME_MODES.T20_TOURNAMENT || this.game_mode === GAME_MODES.ODI_WORLD_CUP) {
+                this.tournament.record_match_result(this.team1_obj_current_match, this.team2_obj_current_match, winner, this.current_match_details_tuple, is_tie);
+                this._process_tournament_progression(this.current_match_details_tuple, winner);
+                this.dom.nextActionBtn.textContent = "Continue Tournament";
+                this.dom.nextActionBtn.disabled = false;
+            } else {
+                this.dom.nextActionBtn.textContent = "New Game?";
+                this.dom.nextActionBtn.disabled = false;
+            }
+        });
+    },
+
+    _process_tournament_progression(match_info, winner) {
+        const match_type = match_info[2];
+        if (match_type.includes("Group")) {
+            if (this.tournament.are_group_matches_over()) {
+                this.tournament.generate_knockout_schedule();
+            }
+        } else if (match_type.includes("Semi-Final") && winner) {
+            const sf_key = match_type.includes("1") ? 'SF1' : 'SF2';
+            this.tournament.semi_final_winners[sf_key] = winner;
+            if (Object.keys(this.tournament.semi_final_winners).length === 2) {
+                this.tournament.generate_final_schedule();
+            }
+        } else if (match_type === "FINAL" && winner) {
+            this.tournament.final_winner = winner;
+        }
+        this._update_tournament_info_display();
+    },
+    
+    _play_next_series_match() {
+        if (this.series.is_over()) {
+            this.dom.commentaryDisplay.textContent = "Series has concluded.";
+            this.dom.nextActionBtn.textContent = "New Game?";
+            return;
+        }
+
+        const next_teams = this.series.get_next_match_teams();
+        if (next_teams) {
+            [this.team1_obj_current_match, this.team2_obj_current_match] = next_teams;
+            this.innings_count = 0;
+            this.dom.commentaryDisplay.textContent = `Starting Match ${this.series.current_match_num + 1} of ${this.series.total_matches}`;
+            this.perform_toss_for_match();
+        }
+    },
+
+    _play_next_tournament_match_or_simulate() {
+        this.current_match_details_tuple = this.tournament.get_next_match();
+        if (this.current_match_details_tuple) {
+            this.format_rules = this.tournament.format_rules;
+            this.innings_count = 0;
+            
+            const [t1_obj, t2_obj, match_type] = this.current_match_details_tuple;
+            this.team1_obj_current_match = t1_obj; this.team2_obj_current_match = t2_obj;
+            
+            const is_player_match = (t1_obj.name === this.player_team_name || t2_obj.name === this.player_team_name);
+            
+            if (is_player_match) {
+                this.dom.commentaryDisplay.textContent = `Your Match: ${match_type} - ${t1_obj.name} vs ${t2_obj.name}`;
+                this.perform_toss_for_match();
+            } else {
+                this.dom.commentaryDisplay.textContent = `Simulating: ${match_type} - ${t1_obj.name} vs ${t2_obj.name}...`;
+                this.is_busy = true;
+                this.dom.nextActionBtn.disabled = true;
+
+                setTimeout(() => {
+                    const { winner, score1, wickets1, score2, wickets2, is_tie } = simulate_cpu_match(t1_obj, t2_obj, this.tournament.format_rules);
+                    this.tournament.record_match_result(t1_obj, t2_obj, winner, this.current_match_details_tuple, is_tie);
+                    this._process_tournament_progression(this.current_match_details_tuple, winner);
+                    const sim_res_txt = `Sim: ${t1_obj.name} ${score1}/${wickets1} vs ${t2_obj.name} ${score2}/${wickets2}. Win: ${winner.name}${is_tie ? ' (Tie)' : ''}`;
+                    this.dom.commentaryDisplay.textContent = sim_res_txt;
+                    this.is_busy = false;
+                    this.dom.nextActionBtn.disabled = false;
+                    this._play_next_tournament_match_or_simulate();
+                }, 700);
+            }
+        } else { // Tournament finished
+            this.dom.commentaryDisplay.textContent = "Tournament Finished!";
+            const winner_name = this.tournament.final_winner?.name || "N/A";
+            let msg = `Winner: ${winner_name}!`
+            if(winner_name === "N/A") msg = "Tournament Concluded.";
+            else if (this.player_team_name === winner_name) msg = `Congratulations ${winner_name}, you are the Champion!`;
+            
+            this.showModal("Tournament Over", msg);
+            this.dom.nextActionBtn.textContent = "New Game?";
+            this._update_tournament_info_display();
+        }
+    },
+    
+    // --- Display Update Functions ---
+    update_match_display(dice_info = null) {
+        if (!this.innings) return;
+        
+        try {
+            const { batting_team, bowling_team, striker, non_striker, current_bowler } = this.innings;
+            const bat_colors = TEAM_COLORS[batting_team.name] || TEAM_COLORS.Default;
+            const bowl_colors = TEAM_COLORS[bowling_team.name] || TEAM_COLORS.Default;
+
+            this.dom.batTeamNameLabel.style.backgroundColor = bat_colors.bg;
+            this.dom.batTeamNameLabel.style.color = bat_colors.fg;
+            this.dom.batTeamNameLabel.textContent = TEAM_ABBREVIATIONS[batting_team.name] || 'BAT';
+            this.dom.batTeamScoreLabel.style.backgroundColor = bat_colors.bg_alt;
+            this.dom.batTeamScoreLabel.textContent = `${this.innings.score}-${this.innings.wickets}`;
+
+            this.dom.oversDisplay.textContent = `${Math.floor(this.innings.ball_count / 6)}.${this.innings.ball_count % 6}`;
+            this.dom.rrDisplay.textContent = this.innings.run_rate.toFixed(2);
+            
+            this.dom.bowlTeamNameLabel.style.backgroundColor = bowl_colors.bg;
+            this.dom.bowlTeamNameLabel.style.color = bowl_colors.fg;
+            this.dom.bowlTeamNameLabel.textContent = TEAM_ABBREVIATIONS[bowling_team.name] || 'BOWL';
+            this.dom.bowlerNameDisplay.textContent = `${current_bowler.name} (Bo:${current_bowler.player_obj.bowling_rating})`;
+            this.dom.bowlerFiguresDisplay.textContent = `${current_bowler.current_wickets}-${current_bowler.current_runs_conceded} (${current_bowler.overs})`;
+            
+            this.dom.strikerDisplay.textContent = `${striker.name} (B:${striker.current_match_batting_rating}) ${striker.current_runs} (${striker.current_balls_faced})`;
+            this.dom.nonStrikerDisplay.textContent = non_striker && non_striker !== striker ? `${non_striker.name} (B:${non_striker.current_match_batting_rating}) ${non_striker.current_runs} (${non_striker.current_balls_faced})` : '';
+
+            if (this.format_rules.name === 'Test Match') {
+                const day = Math.floor(this.innings.ball_count / 540) + 1;
+                const overs_today = Math.floor((this.innings.ball_count % 540) / 6);
+                this.dom.statusDisplay.textContent = `Day ${day} | Overs Today: ${overs_today}/90`;
+                this.dom.statusDisplay.style.color = 'white';
+            } else {
+                this.dom.statusDisplay.textContent = this.innings.is_powerplay() ? "POWERPLAY" : "";
+                this.dom.statusDisplay.style.color = 'var(--powerplay-color)';
+            }
+            
+            if (dice_info) {
+                this.dom.batDiceDisplay.textContent = `BAT (R:${dice_info.bat_rating}) rolled: ${dice_info.bat_roll}`;
+                this.dom.bowlDiceDisplay.textContent = `BOWL (R:${dice_info.bowl_rating}) rolled: ${dice_info.bowl_roll}`;
+            } else {
+                this.dom.batDiceDisplay.textContent = '';
+                this.dom.bowlDiceDisplay.textContent = '';
+            }
+            this.dom.commentaryDisplay.textContent = this.innings.commentary;
+        } catch (e) {
+            console.error(e);
+            this.dom.commentaryDisplay.textContent = `Display Error: ${e.message}`;
+        }
+    },
+
+    _update_series_info_display() {
+        if (!this.series) return;
+        const status_text = `'${this.series.name}' (${this.series.total_matches} Matches) | Score: ${this.series.get_series_status_string()}`;
+        this.dom.modeInfoDisplay.textContent = status_text;
+    },
+
+    _update_tournament_info_display() {
+        if (!this.tournament) return;
+        let info_text = "--- Tournament Status ---\n";
+        for (const group_name of Object.keys(this.tournament.groups)) {
+            info_text += `\nGroup ${group_name} Standings:\n`;
+            info_text += `Team         P  W  L  T  Pts\n`;
+            for (const t of this.tournament._get_sorted_group_table(group_name)) {
+                info_text += `${t.name.padEnd(12)} ${String(t.played).padStart(2)} ${String(t.wins).padStart(2)} ${String(t.losses).padStart(2)} ${String(t.ties).padStart(2)} ${String(t.points).padStart(3)}\n`;
+            }
+        }
+        if (this.tournament.final_winner) {
+            info_text += `\nTournament Winner: ${this.tournament.final_winner.name}!\n`;
+        } else {
+            const next_match_peek_idx = this.tournament.current_match_index + 1;
+            if (next_match_peek_idx < this.tournament.schedule.length) {
+                const nm = this.tournament.schedule[next_match_peek_idx];
+                info_text += `\nNext Up: ${nm[2]} - ${nm[0].name} vs ${nm[1].name}\n`;
+            } else {
+                info_text += "\nTournament Concluded or Final Pending.\n";
+            }
+        }
+        this.dom.modeInfoDisplay.textContent = info_text;
+    },
+    
+    // --- Modal & Info Windows ---
+    showModal(title, content, on_close_callback = null) {
+        this.dom.modalTitle.textContent = title;
+        this.dom.modalBody.innerHTML = `<p>${content.replace(/\n/g, '<br>')}</p>`;
+        this.dom.modal.style.display = 'flex';
+        if (on_close_callback) {
+            const temp_close_handler = () => {
+                this.hideModal();
+                this.dom.modalCloseBtn.removeEventListener('click', temp_close_handler);
+                on_close_callback();
+            };
+            this.dom.modalCloseBtn.addEventListener('click', temp_close_handler);
+        }
+    },
+    
+    hideModal() {
+        this.dom.modal.style.display = 'none';
+        // Clear any one-time callbacks by cloning the button
+        const old_element = this.dom.modalCloseBtn;
+        const new_element = old_element.cloneNode(true);
+        old_element.parentNode.replaceChild(new_element, old_element);
+        this.dom.modalCloseBtn = new_element;
+        this.dom.modalCloseBtn.addEventListener('click', () => this.hideModal());
+    },
+
+    show_match_scorecard() {
+        if (!this.team_order || this.team_order.length === 0) {
+            this.showModal("Scorecard", "Match data not available.");
+            return;
+        }
+        this.dom.modalTitle.textContent = "Current Match Scorecard";
+        let content = '';
+
+        for (let i = 1; i <= this.innings_count; i++) {
+            const batting_team = (i % 2 !== 0) ? this.team_order[0] : this.team_order[1];
+            const bowling_team = (i % 2 !== 0) ? this.team_order[1] : this.team_order[0];
+            const suffix = {1: "st", 2: "nd", 3: "rd"}[i] || "th";
+            const title = `${batting_team.name} - ${i}${suffix} Innings`;
+            
+            content += this._create_scorecard_display_html(batting_team, bowling_team, title, i);
+        }
+        this.dom.modalBody.innerHTML = content;
+        this.dom.modal.style.display = 'flex';
+    },
+
+    _create_scorecard_display_html(team_batting_obj, team_bowling_obj, title, innings_num) {
+        let html = `<div class="scorecard-inning-frame"><h3>${title}</h3>`;
+        html += `<h4>Batting</h4>`;
+        html += `Batsman              Runs  Balls  4s  6s   S/R\n`;
+        const is_current_innings = (this.innings && this.innings.innings_num === innings_num);
+
+        for (const p of team_batting_obj.players) {
+            const is_curr_batter = is_current_innings && (p === this.innings.striker || p === this.innings.non_striker);
+            if (p.innings_stats[innings_num] && (p.innings_stats[innings_num][1] > 0 || is_curr_batter)) {
+                const [runs, balls, fours, sixes] = p.innings_stats[innings_num];
+                const sr_val = balls > 0 ? (runs / balls) * 100 : 0.0;
+                const sr = sr_val.toFixed(2);
+                html += `${p.name.padEnd(20)} ${String(runs).padEnd(5)} ${String(balls).padEnd(6)} ${String(fours).padEnd(3)} ${String(sixes).padEnd(4)} ${sr}\n`;
+            }
+        }
+        
+        html += `<h4>Bowling</h4>`;
+        html += `Bowler               Overs   Runs  Wkts  Econ\n`;
+        for (const b_stats of Object.values(team_bowling_obj.bowlers)) {
+            if (b_stats.innings_stats[innings_num] && b_stats.innings_stats[innings_num][0] > 0) {
+                const [balls, runs, wickets] = b_stats.innings_stats[innings_num];
+                const overs_str = `${Math.floor(balls / 6)}.${balls % 6}`;
+                const econ = balls > 0 ? (runs / (balls / 6)) : 0.0;
+                html += `${b_stats.name.padEnd(20)} ${overs_str.padEnd(7)} ${String(runs).padEnd(5)} ${String(wickets).padEnd(5)} ${econ.toFixed(2)}\n`;
+            }
+        }
+        const [score, wickets] = team_batting_obj.scores_by_innings[innings_num] || [0,0];
+        html += `<div class="scorecard-total">Total: ${score}/${wickets}</div></div>`;
+        return html;
+    },
+
+    show_series_info_window() {
+        if (!this.series) return;
+        let content = `--- ${this.series.name} ---\n\n`;
+        content += `Format: ${this.series.format_rules.name}\n`;
+        content += `Total Matches: ${this.series.total_matches}\n`;
+        content += `Current Score: ${this.series.get_series_status_string()}\n`;
+        if (this.series.ties_or_draws > 0) {
+            content += `Ties/Draws: ${this.series.ties_or_draws}\n`;
+        }
+
+        if (this.series.winner) {
+            const winner_name = typeof this.series.winner === 'string' ? this.series.winner : this.series.winner.name;
+            content += `\nSeries Winner: ${winner_name}\n`;
+        }
+
+        content += "\n--- Match Results Log ---\n";
+        if (this.series.results.length === 0) {
+            content += "No matches completed yet.\n";
+        } else {
+            for (const r of this.series.results) {
+                content += `Match ${r.match_num}: Winner - ${r.winner}\n`;
+            }
+        }
+        
+        this.dom.modalTitle.textContent = `'${this.series.name}' Information`;
+        this.dom.modalBody.innerHTML = `<pre>${content}</pre>`;
+        this.dom.modal.style.display = 'flex';
+    },
+    
+    show_tournament_info_window() {
+        if (!this.tournament) return;
+        let content = "--- Tournament Full Report ---\n";
+        
+        content += "\n--- Standings ---\n"
+        for (const group_name of Object.keys(this.tournament.groups)) {
+            content += `\nGroup ${group_name}:\nTeam          P  W  L  T  Pts\n`;
+            for (const t of this.tournament._get_sorted_group_table(group_name)) {
+                content += `${t.name.padEnd(12)} ${String(t.played).padStart(2)} ${String(t.wins).padStart(2)} ${String(t.losses).padStart(2)} ${String(t.ties).padStart(2)} ${String(t.points).padStart(3)}\n`;
+            }
+        }
+        if (Object.keys(this.tournament.knockout_qualifiers).length > 0) {
+            content += "\n--- Knockout Stage ---\n";
+            const kq = this.tournament.knockout_qualifiers;
+            content += Object.entries(kq).map(([k, v]) => `${k}: ${v ? v.name : 'TBD'}`).join('\n') + '\n';
+        }
+        if (this.tournament.final_winner) {
+            content += `\nTournament Winner: ${this.tournament.final_winner.name}!\n`;
+        }
+
+        content += "\n\n--- Match Results Log ---\n";
+        if (this.tournament.results.length === 0) {
+            content += "No matches played yet.\n";
+        } else {
+            for (const [i, r] of this.tournament.results.entries()) {
+                const group_info = r.group ? ` Gp ${r.group}` : '';
+                content += `M${i+1}(${r.match_type}${group_info}): ${r.team1_name} ${r.team1_score}/${r.team1_wickets} vs ${r.team2_name} ${r.team2_score}/${r.team2_wickets} | Win: ${r.winner}\n`;
+            }
+        }
+        
+        this.dom.modalTitle.textContent = `Tournament Information`;
+        this.dom.modalBody.innerHTML = `<pre>${content}</pre>`;
+        this.dom.modal.style.display = 'flex';
+    }
+};
+
+const SetupManager = {
+    dom: {
+        gameModeRadios: document.querySelectorAll('input[name="game_mode"]'),
+        optionPanels: {
+            single_match: document.getElementById('single-match-options'),
+            series_play: document.getElementById('series-options'),
+            t20_tournament: document.getElementById('t20-tournament-options'),
+            odi_world_cup: document.getElementById('odi-wc-options')
+        },
+        startGameBtn: document.getElementById('start-game-btn'),
+        smFormat: document.getElementById('sm-format'),
+        smTeam1: document.getElementById('sm-team1'),
+        smTeam2: document.getElementById('sm-team2'),
+        seriesName: document.getElementById('series-name'),
+        seriesMatches: document.getElementById('series-matches'),
+        seriesFormat: document.getElementById('series-format'),
+        seriesTeam1: document.getElementById('series-team1'),
+        seriesTeam2: document.getElementById('series-team2'),
+        seriesPlayerTeam: document.getElementById('series-player-team'),
+        t20TeamsContainer: document.getElementById('t20-teams-container'),
+        t20PlayerTeam: document.getElementById('t20-player-team'),
+        odiTeamsContainer: document.getElementById('odi-teams-container'),
+        odiPlayerTeam: document.getElementById('odi-player-team'),
+    },
+    
+    init() {
+        this.populateSelects();
+        this.setupEventListeners();
+        this.toggleOptionsDisplay();
+    },
+
+    populateSelects() {
+        const teamNames = Object.keys(TEAMS_DATA);
+        const formatOptions = Object.entries(GAME_FORMATS)
+            .sort(([,a], [,b]) => b.total_balls - a.total_balls)
+            .map(([key, val]) => `<option value="${key}">${val.name}</option>`)
+            .join('');
+        
+        this.dom.smFormat.innerHTML = formatOptions;
+        this.dom.seriesFormat.innerHTML = formatOptions;
+        [this.dom.smFormat, this.dom.seriesFormat].forEach(s => s.value = DEFAULT_FORMAT_KEY);
+
+        const teamOptions = teamNames.map(name => `<option value="${name}">${name}</option>`).join('');
+        
+        [this.dom.smTeam1, this.dom.smTeam2, this.dom.seriesTeam1, this.dom.seriesTeam2].forEach(s => s.innerHTML = teamOptions);
+        this.dom.smTeam1.value = teamNames[0];
+        this.dom.smTeam2.value = teamNames[1];
+        this.dom.seriesTeam1.value = teamNames[2];
+        this.dom.seriesTeam2.value = teamNames[1];
+
+        // Populate tournament team selectors
+        for (let i = 0; i < 6; i++) {
+            const select = document.createElement('select');
+            select.innerHTML = teamOptions;
+            select.value = teamNames[i % teamNames.length];
+            select.dataset.index = i;
+            this.dom.t20TeamsContainer.appendChild(select);
+        }
+        for (let i = 0; i < 8; i++) {
+            const select = document.createElement('select');
+            select.innerHTML = teamOptions;
+            select.value = teamNames[i % teamNames.length];
+            select.dataset.index = i;
+            this.dom.odiTeamsContainer.appendChild(select);
+        }
+    },
+
+    setupEventListeners() {
+        this.dom.gameModeRadios.forEach(radio => radio.addEventListener('change', () => this.toggleOptionsDisplay()));
+        this.dom.startGameBtn.addEventListener('click', () => this.collectConfigAndStart());
+
+        [this.dom.seriesTeam1, this.dom.seriesTeam2].forEach(el => el.addEventListener('change', () => this.updateSeriesPlayerTeamOptions()));
+        
+        this.dom.t20TeamsContainer.querySelectorAll('select').forEach(sel => sel.addEventListener('change', () => this.updateTournamentPlayerTeamOptions('t20')));
+        this.dom.odiTeamsContainer.querySelectorAll('select').forEach(sel => sel.addEventListener('change', () => this.updateTournamentPlayerTeamOptions('odi')));
+    },
+
+    toggleOptionsDisplay() {
+        const selectedMode = document.querySelector('input[name="game_mode"]:checked').value;
+        Object.values(this.dom.optionPanels).forEach(panel => panel.classList.add('hidden'));
+        this.dom.optionPanels[selectedMode].classList.remove('hidden');
+        
+        if (selectedMode === GAME_MODES.SERIES) this.updateSeriesPlayerTeamOptions();
+        if (selectedMode === GAME_MODES.T20_TOURNAMENT) this.updateTournamentPlayerTeamOptions('t20');
+        if (selectedMode === GAME_MODES.ODI_WORLD_CUP) this.updateTournamentPlayerTeamOptions('odi');
+    },
+
+    updateSeriesPlayerTeamOptions() {
+        const t1 = this.dom.seriesTeam1.value;
+        const t2 = this.dom.seriesTeam2.value;
+        const choices = [];
+        if (t1) choices.push(t1);
+        if (t2 && t1 !== t2) choices.push(t2);
+        
+        this.dom.seriesPlayerTeam.innerHTML = choices.map(c => `<option value="${c}">${c}</option>`).join('');
+    },
+    
+    updateTournamentPlayerTeamOptions(type) {
+        const container = type === 't20' ? this.dom.t20TeamsContainer : this.dom.odiTeamsContainer;
+        const playerTeamSelect = type === 't20' ? this.dom.t20PlayerTeam : this.dom.odiPlayerTeam;
+        
+        const selectedTeams = Array.from(container.querySelectorAll('select')).map(s => s.value);
+        const uniqueTeams = [...new Set(selectedTeams)];
+        
+        playerTeamSelect.innerHTML = uniqueTeams.map(t => `<option value="${t}">${t}</option>`).join('');
+    },
+
+    collectConfigAndStart() {
+        const mode = document.querySelector('input[name="game_mode"]:checked').value;
+        let config = { mode };
+
+        try {
+            if (mode === GAME_MODES.SINGLE) {
+                config.format_key = this.dom.smFormat.value;
+                config.team_data1 = this.dom.smTeam1.value;
+                config.team_data2 = this.dom.smTeam2.value;
+                if (config.team_data1 === config.team_data2) throw new Error("Please select two different teams.");
+            }
+            else if (mode === GAME_MODES.SERIES) {
+                config.series_name = this.dom.seriesName.value.trim();
+                if (!config.series_name) throw new Error("Please enter a series name.");
+                config.num_matches = parseInt(this.dom.seriesMatches.value, 10);
+                config.format_key = this.dom.seriesFormat.value;
+                config.team_data1 = this.dom.seriesTeam1.value;
+                config.team_data2 = this.dom.seriesTeam2.value;
+                config.player_team_name = this.dom.seriesPlayerTeam.value;
+                if (config.team_data1 === config.team_data2) throw new Error("Please select two different teams for the series.");
+                if (!config.player_team_name) throw new Error("Please select your team for the series.");
+            }
+            else if (mode === GAME_MODES.T20_TOURNAMENT) {
+                config.format_key = 'T20';
+                config.team_data1 = Array.from(this.dom.t20TeamsContainer.querySelectorAll('select')).map(s => s.value);
+                config.player_team_name = this.dom.t20PlayerTeam.value;
+                if (new Set(config.team_data1).size !== 6) throw new Error("Please select 6 unique teams for the T20 tournament.");
+                if (!config.player_team_name) throw new Error("Please select your team for the tournament.");
+            }
+            else if (mode === GAME_MODES.ODI_WORLD_CUP) {
+                config.format_key = 'ODI';
+                config.team_data1 = Array.from(this.dom.odiTeamsContainer.querySelectorAll('select')).map(s => s.value);
+                config.player_team_name = this.dom.odiPlayerTeam.value;
+                if (new Set(config.team_data1).size !== 8) throw new Error("Please select 8 unique teams for the ODI World Cup.");
+                if (!config.player_team_name) throw new Error("Please select your team for the tournament.");
+            }
+
+            GameController.initialize_game_controller(config);
+
+        } catch (e) {
+            GameController.showModal("Setup Error", e.message);
+        }
+    }
+};
+
+
+// --- Start the application ---
+GameController.init();
+
+});
+</script>
+
 </body>
 </html>
